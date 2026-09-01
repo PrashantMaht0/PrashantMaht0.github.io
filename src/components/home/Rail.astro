@@ -1,0 +1,57 @@
+---
+import { homeSections } from '../../site.config';
+---
+
+<aside class="rail">
+  <nav class="rail__nav" aria-label="On this page">
+    {
+      homeSections.map(({ id, label }, i) => (
+        <a class="rail__link" href={`#${id}`} data-rail={id} aria-current={i === 0 ? 'true' : 'false'}>
+          {label}
+        </a>
+      ))
+    }
+  </nav>
+</aside>
+
+<script>
+  // The one piece of JS on the site: mirrors the wireframe's active-section
+  // highlight. Progressive enhancement — without it the rail is still a
+  // working list of anchor links.
+  const links = document.querySelectorAll<HTMLAnchorElement>('[data-rail]');
+  const sections = document.querySelectorAll<HTMLElement>('[data-section]');
+
+  if (links.length && sections.length) {
+    let current = '';
+
+    const measure = () => {
+      let id = sections[0].dataset.section ?? '';
+      sections.forEach((el) => {
+        if (el.getBoundingClientRect().top <= 140) id = el.dataset.section ?? id;
+      });
+
+      // At the foot of the page the last section can never cross the 140px
+      // threshold, so claim it explicitly rather than padding the page out.
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom) id = sections[sections.length - 1].dataset.section ?? id;
+      if (id === current) return;
+      current = id;
+      links.forEach((a) => a.setAttribute('aria-current', String(a.dataset.rail === id)));
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        measure();
+      });
+    };
+
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
+    measure();
+  }
+</script>

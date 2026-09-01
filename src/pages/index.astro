@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Rail from '../components/home/Rail.astro';
+import {
+  site,
+  socials,
+  education,
+  skills,
+  certifications,
+} from '../site.config';
+---
+
+<BaseLayout>
+  <div class="shell home">
+    <div class="home__body">
+      <section class="section" id="about" data-section="about">
+        <div class="hero__greeting">{site.greeting}</div>
+        <h1 class="hero__name">{site.name}</h1>
+        <div class="hero__role">{site.role}</div>
+        <p class="hero__bio">{site.bio}</p>
+      </section>
+
+      <section class="section" id="education" data-section="education">
+        <h2 class="section__title">Education</h2>
+        <div class="rows">
+          {
+            education.map((e) => (
+              <div class="row">
+                <div class="row__main">
+                  <div class="row__title">{e.school}</div>
+                  <div class="row__sub">{e.degree}</div>
+                  <div class="row__place">{e.place}</div>
+                </div>
+                <div class="row__meta">{e.dates}</div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="section" id="experience" data-section="experience">
+        <div class="empty">
+          <div class="empty__code">Error 404</div>
+          <div class="empty__note">No Experience Found :(</div>
+        </div>
+      </section>
+
+      <section class="section" id="stack" data-section="stack">
+        <h2 class="section__title">My Tech Stack</h2>
+        <div class="chips">
+          {
+            skills.map((s) => (
+              <div class="chip">
+                <span>{s.name}</span>
+                <span class="chip__tag">{s.tag}</span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="section" id="certifications" data-section="certifications">
+        <h2 class="section__title">Certificates</h2>
+        <div class="certs">
+          {
+            certifications.map((c) => (
+              <div class="cert">
+                <div class="cert__issuer">{c.issuer}</div>
+                <div class="cert__title">{c.title}</div>
+                <div class="cert__foot">
+                  <span>{c.year}</span>
+                  <a class="cert__link" href={c.link} target="_blank" rel="noopener">
+                    Link
+                  </a>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="section" id="follow" data-section="follow">
+        <div class="follow">
+          <div>
+            <div class="portrait">
+              <img
+                src={site.portrait}
+                alt={`${site.name}, portrait`}
+                width="413"
+                height="531"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+
+          <div>
+            <h2 class="contact__title">Drop me a mail</h2>
+            <p class="contact__lead">
+              just mail me directly and I'll reply.
+            </p>
+            <a class="btn" href={`mailto:${site.email}`}>{site.email}</a>
+
+            <div class="follow__socials">
+              <div class="follow__label">Follow me on Other Social Media Platform</div>
+              <div class="squares">
+                {
+                  socials.map((s) => (
+                    <a
+                      class="square"
+                      href={s.href}
+                      title={s.label}
+                      aria-label={s.label}
+                      rel="me noopener"
+                      target="_blank"
+                    >
+                      <img src={s.icon} alt="" width="22" height="22" loading="lazy" />
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <Rail />
+  </div>
+</BaseLayout>

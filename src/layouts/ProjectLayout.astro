@@ -1,0 +1,92 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import CardMedia from '../components/content/CardMedia.astro';
+import { formatDate } from '../lib';
+
+interface Props {
+  entry: CollectionEntry<'projects'>;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+
+const links = [
+  data.repoUrl && { label: 'Source', href: data.repoUrl },
+  data.liveUrl && { label: 'Live', href: data.liveUrl },
+].filter(Boolean) as { label: string; href: string }[];
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  type="article"
+  publishDate={data.publishDate}
+  updatedDate={data.updatedDate}
+>
+  <div class="shell shell--reading article">
+    <a class="btn btn--ghost" href="/projects">Back</a>
+
+    {data.draft && <p><span class="draft">Draft</span></p>}
+
+    <h1 class="article__title">{data.title}</h1>
+
+    <div class="article__bar">
+      <div class="article__sub">{data.description}</div>
+      <div class="article__num">{data.status}</div>
+    </div>
+
+    <div class="article__date">
+      <time datetime={data.publishDate.toISOString()}>{formatDate(data.publishDate)}</time>
+    </div>
+
+    <div class="article__cover">
+      <CardMedia data={data} />
+    </div>
+
+    <dl class="meta">
+      <div class="meta__cell">
+        <dt class="meta__key">Role</dt>
+        <dd class="meta__val">{data.role}</dd>
+      </div>
+      <div class="meta__cell">
+        <dt class="meta__key">Timeline</dt>
+        <dd class="meta__val">{data.timeline}</dd>
+      </div>
+      <div class="meta__cell">
+        <dt class="meta__key">Status</dt>
+        <dd class="meta__val">{data.status}</dd>
+      </div>
+      {
+        links.length > 0 && (
+          <div class="meta__cell">
+            <dt class="meta__key">Links</dt>
+            <dd class="meta__val">
+              {links.map((l) => (
+                <a href={l.href} style="text-decoration:underline;margin-right:14px">
+                  {l.label}
+                </a>
+              ))}
+            </dd>
+          </div>
+        )
+      }
+    </dl>
+
+    <ul class="tags" style="margin-top:24px">
+      {
+        data.tech.map((t) => (
+          <li>
+            <span class="tag">{t}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </div>
+</BaseLayout>

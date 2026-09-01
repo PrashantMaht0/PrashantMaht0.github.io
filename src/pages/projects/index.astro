@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CardMedia from '../../components/content/CardMedia.astro';
+import { isPublished, sortProjects } from '../../lib';
+
+const projects = sortProjects((await getCollection('projects')).filter(isPublished));
+const active = projects.filter((p) => p.data.status === 'active').length;
+---
+
+<BaseLayout title="Projects" description="Project case studies.">
+  <div class="shell page">
+    <h1 class="page__title">Active Projects</h1>
+    <div class="page__lead">
+      {active > 0 ? `${active} thing${active === 1 ? '' : 's'} I'm building right now.` : 'Everything I have shipped.'}
+    </div>
+
+    <div class="cards">
+      {
+        projects.map((p, i) => (
+          <article class="card">
+            <a href={`/projects/${p.id}`} aria-label={p.data.title}>
+              <CardMedia data={p.data} />
+            </a>
+            <div class="card__body">
+              <div class="card__head">
+                <h2 class="card__name">
+                  <a href={`/projects/${p.id}`}>{p.data.title}</a>
+                </h2>
+                <span class="card__index">{String(i + 1).padStart(2, '0')}</span>
+              </div>
+              {p.data.draft && <span class="draft">Draft</span>}
+              <div class="card__label">Project Description</div>
+              <p class="card__blurb">{p.data.description}</p>
+              <ul class="tags">
+                {p.data.tech.slice(0, 4).map((t) => (
+                  <li>
+                    <span class="tag">{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

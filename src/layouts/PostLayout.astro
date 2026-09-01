@@ -1,0 +1,67 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from './BaseLayout.astro';
+import { formatDate, readingTime } from '../lib';
+
+interface Props {
+  entry: CollectionEntry<'blog'>;
+  number: number;
+}
+
+const { entry, number } = Astro.props;
+const { data, body } = entry;
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  type="article"
+  canonicalUrl={data.canonicalUrl}
+  publishDate={data.publishDate}
+  updatedDate={data.updatedDate}
+>
+  <div class="shell shell--reading article">
+    <a class="btn btn--ghost" href="/blog">Back</a>
+
+    {data.draft && <p><span class="draft">Draft</span></p>}
+
+    <h1 class="article__title">{data.title}</h1>
+
+    <div class="article__bar">
+      <div class="article__sub">{data.description}</div>
+      <div class="article__num">Blog #{number}</div>
+    </div>
+
+    <div class="article__date">
+      <time datetime={data.publishDate.toISOString()}>{formatDate(data.publishDate)}</time>
+      {
+        data.updatedDate && (
+          <>
+            {' · updated '}
+            <time datetime={data.updatedDate.toISOString()}>{formatDate(data.updatedDate)}</time>
+          </>
+        )
+      }
+      {body && ` · ${readingTime(body)} min read`}
+    </div>
+
+    {
+      data.cover && (
+        <div class="article__cover">
+          {typeof data.cover === 'string' ? (
+            <img src={data.cover} alt={data.coverAlt ?? ''} />
+          ) : (
+            <Image src={data.cover} alt={data.coverAlt ?? ''} />
+          )}
+        </div>
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+  </div>
+</BaseLayout>

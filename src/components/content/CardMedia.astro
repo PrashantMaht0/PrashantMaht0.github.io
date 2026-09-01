@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  data: CollectionEntry<'projects'>['data'];
+}
+
+const { data } = Astro.props;
+const { cover, coverAlt, videoUrl } = data;
+---
+
+<div class="card__media">
+  {
+    videoUrl ? (
+      <video src={videoUrl} muted loop playsinline preload="metadata" aria-label={data.title} />
+    ) : cover ? (
+      typeof cover === 'string' ? (
+        <img src={cover} alt={coverAlt ?? ''} loading="lazy" decoding="async" />
+      ) : (
+        <Image src={cover} alt={coverAlt ?? ''} loading="lazy" />
+      )
+    ) : (
+      <span class="placeholder">Project Video</span>
+    )
+  }
+</div>

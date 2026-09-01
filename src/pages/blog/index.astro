@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { byDate, formatDate, isPublished, postNumbers, weeklyStreak } from '../../lib';
+
+const all = (await getCollection('blog')).filter(isPublished);
+const posts = byDate(all);
+const numbers = postNumbers(all);
+const streak = weeklyStreak(all);
+---
+
+<BaseLayout title="Blogs" description="Weekly blogs and articles.">
+  <div class="shell shell--reading page">
+    <div class="bloghead">
+      <h1 class="bloghead__title">Weekly Blogs and Articles</h1>
+      <div class="streak">Current Streak : <b>{streak}</b></div>
+    </div>
+
+    <ul class="postlist">
+      {
+        posts.map((post) => (
+          <li>
+            <a class="postcard" href={`/blog/${post.id}`}>
+              <div>
+                <div class="postcard__title">{post.data.title}</div>
+                <div class="postcard__sub">{post.data.description}</div>
+                <div class="postcard__date">
+                  <time datetime={post.data.publishDate.toISOString()}>
+                    {formatDate(post.data.publishDate)}
+                  </time>
+                  {post.data.draft && ' · draft'}
+                </div>
+              </div>
+              <div class="postcard__num">Blog #{numbers.get(post.id)}</div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>

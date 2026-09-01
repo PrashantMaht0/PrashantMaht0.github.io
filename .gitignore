@@ -1,0 +1,22 @@
+#---- Temprory fies----
+Context.md
+
+# build output
+dist/
+.astro/
+.claude/
+
+# dependencies
+node_modules/
+
+# environment
+.env
+.env.production
+
+# macOS
+.DS_Store
+
+# logs
+npm-debug.log*
+
+

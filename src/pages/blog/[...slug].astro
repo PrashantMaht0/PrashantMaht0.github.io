@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import PostLayout from '../../layouts/PostLayout.astro';
+import { isPublished, postNumbers } from '../../lib';
+
+export const getStaticPaths = (async () => {
+  const posts = (await getCollection('blog')).filter(isPublished);
+  const numbers = postNumbers(posts);
+  return posts.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry, number: numbers.get(entry.id) ?? 1 },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry, number } = Astro.props;
+---
+
+<PostLayout entry={entry} number={number} />

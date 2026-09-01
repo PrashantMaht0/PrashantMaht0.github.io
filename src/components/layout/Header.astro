@@ -1,0 +1,24 @@
+---
+import { headerLinks } from '../../site.config';
+import Nav from './Nav.astro';
+---
+
+<header class="header">
+  <div class="shell header__inner">
+    <div></div>
+    <Nav />
+    <div class="header__icons">
+      {
+        headerLinks.map((link) => (
+          <a class="iconbtn" href={link.href} title={link.tip} aria-label={link.tip}>
+            {'icon' in link ? (
+              <img src={link.icon} alt="" width="16" height="16" />
+            ) : (
+              link.mark
+            )}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</header>
