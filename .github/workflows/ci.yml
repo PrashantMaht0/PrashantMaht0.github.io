@@ -1,9 +1,8 @@
 name: CI
 
+# Pushes to main are checked and built by deploy.yml, so this only guards PRs.
 on:
   pull_request:
-  push:
-    branches: [main]
 
 jobs:
   build:

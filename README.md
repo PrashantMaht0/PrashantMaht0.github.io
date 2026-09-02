@@ -1,6 +1,12 @@
-# protfolio-prashant-mahto
+# PrashantMaht0.github.io
 
 My personal portfolio website. Astro, Markdown content, static output.
+
+Live at **https://prashantmaht0.github.io**
+
+Every push to `main` builds and deploys via GitHub Actions
+(`.github/workflows/deploy.yml`). Pull requests are type-checked and built by
+`ci.yml` but never deployed.
 
 ## Run it
 
@@ -35,6 +41,13 @@ src/assets/            images, mirrored by collection and slug
 src/redirects.ts       append-only slug redirect map
 src/styles/global.css  design tokens
 ```
+
+## Deploying
+
+One-time setup: **Settings → Pages → Source → GitHub Actions**.
+
+After that, `git push` to `main` is the whole deploy. The workflow runs
+`astro check` and `astro build`, then publishes `dist/`.
 
 ## Status
 

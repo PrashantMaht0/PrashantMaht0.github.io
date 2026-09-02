@@ -7,8 +7,11 @@
  * surface is deliberately limited to src/content/ and src/assets/.
  */
 
-// TODO: replace with the real custom domain once it is bought (Context.md §11).
-export const siteUrl = 'https://example.com';
+// GitHub Pages user site. The repo is named PrashantMaht0.github.io, so the
+// site serves from the root — no `base` path, and every absolute link works
+// as written. Swapping to a custom domain later means changing this one line
+// (plus a CNAME file).
+export const siteUrl = 'https://prashantmaht0.github.io';
 
 export const site = {
   name: 'Prashant Mahto',
@@ -21,7 +24,9 @@ export const site = {
   author: 'Prashant Mahto',
   email: 'prashantmahto111@gmail.com',
   locale: 'en',
-  ogImage: '/og-default.jpeg',
+  // TODO: a proper 1200x630 social card. This is a portrait crop and will be
+  // letterboxed by Twitter/LinkedIn — it is here so the tag is not a 404.
+  ogImage: '/profile_pic/profile_pic.jpeg',
   resume: '/resume.pdf',
   portrait: '/profile_pic/profile_pic.jpeg',
 } as const;
