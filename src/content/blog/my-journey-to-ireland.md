@@ -1,6 +1,6 @@
 ---
-title: My Journey to Ireland - An Self Introduction
-description: Far away from home, outside my comfort zone, I have picked up far more than just a degree.
+title: My Journey to Ireland 
+description: My first blog ( An Self Introduction )
 publishDate: 2026-09-10
 draft: false
 tags: [personal, ireland]
