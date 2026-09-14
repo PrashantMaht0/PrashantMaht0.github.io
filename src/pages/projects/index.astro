@@ -10,7 +10,7 @@ const active = projects.filter((p) => p.data.status === 'active').length;
 
 <BaseLayout title="Projects" description="Project case studies.">
   <div class="shell page">
-    <h1 class="page__title">Active Projects</h1>
+    <h1 class="page__title">Projects</h1>
     <div class="page__lead">
       {active > 0 ? `${active} thing${active === 1 ? '' : 's'} I'm building right now.` : 'Everything I have shipped.'}
     </div>

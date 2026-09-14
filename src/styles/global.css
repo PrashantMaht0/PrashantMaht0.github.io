@@ -879,6 +879,10 @@ img {
 }
 .prose img {
   border: var(--border);
+  /* Phone photos are portrait; cap them so one picture never fills the screen. */
+  max-height: 70vh;
+  width: auto;
+  margin-inline: auto;
 }
 .prose hr {
   border: 0;
