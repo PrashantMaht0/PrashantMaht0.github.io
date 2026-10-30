@@ -1,6 +1,6 @@
 ---
 title: My Journey to Ireland 
-description: My first blog ( An Self Introduction )
+description: My first blog ( An Self Introduction)
 publishDate: 2026-09-10
 draft: false
 tags: [personal, ireland]
